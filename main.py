@@ -77,11 +77,10 @@ def atualizar_tabela(disponivel,id_livro):
                conexao.close()
 
 
-def remover_livros():
+def remover_livros(id):
     try:
         conexao = sqlite3.connect("biblioteca.db")
         cursor = conexao.cursor()
-        id = int(input("Digite o id do livro que deseja deletar: "))
         cursor.execute("DELETE FROM livros WHERE id = ?",(id,))
         conexao.commit()
         print("Livro removido com sucesso! ")
@@ -108,13 +107,13 @@ def menu():
             listar_livros()
 
         elif opcao == "3":
-            id_livro = input("Digite o ID do livro para atualizar: ")
+            id_livros = input("Digite o ID do livro para atualizar: ")
             novo_status = input("Disponível (sim/não): ")
-            atualizar_tabela(novo_status, id_livro)
+            atualizar_tabela(novo_status, id_livros)
             print("Disponibilidade atualizada!")
         elif opcao == "4":
-            id_livro = input("Digite o ID do livro que deseja remover: ")
-            remover_livros(id_livro)
+            id_livros = input("Digite o ID do livro que deseja remover: ")
+            remover_livros(id_livros)
 
         elif opcao == "5":
             print("Saindo do sistema")
