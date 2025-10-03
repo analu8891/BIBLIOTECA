@@ -41,12 +41,6 @@ def cadastro_livro(titulo,autor,ano):
             conexao.close()
            
 
-titulo = input("Digite o nome do livro Desejado: ").lower()
-autor = input("Digite o autor do livro: ").lower()
-ano = int(input("Digite o ano: "))
-
-cadastro_livro(titulo,autor,ano)
-
 
 def listar_livros():
     try:
@@ -81,11 +75,6 @@ def atualizar_tabela(disponivel,id_livro):
     finally:
             if conexao:
                conexao.close()
-listar_livros()
-disponivel =  input("O livro que voce deseja esta disponivel (sim ou não): ")
-id_livro = int(input("Digite o id do livro que deseja alterar: "))
-atualizar_tabela(disponivel,id_livro)
-
 
 
 def remover_livros():
