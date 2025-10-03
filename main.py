@@ -20,7 +20,7 @@ def criando_tabela():
         if conexao:
             conexao.close()
 
-# criando_tabela() 
+criando_tabela() 
 
 # def cadastro_livro(titulo,autor,ano):
 #     try:
@@ -89,3 +89,17 @@ disponivel =  input("O livro que voce deseja esta disponivel: ")
 id_livro = int(input("Digite o id do livro que deseja alterar: "))
 atualizar_tabela(disponivel,id_livro)
 listar_livros()
+
+
+def remover_livros():
+    try:
+        conexao = sqlite3.connect("biblioteca.db")
+        cursor = conexao.cursor()
+        id = int(input("Digite o id do livro que deseja deletar: "))
+        cursor.execute("DELETE FROM livros WHERE id = ?",(id,))
+        conexao.commit()
+        print("Livro removido com sucesso! ")
+    except Exception as erro:
+         print(f"Erro ao remover livro: {erro}")
+    
+remover_livros()
