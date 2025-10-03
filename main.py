@@ -19,34 +19,33 @@ def criando_tabela():
     finally:
         if conexao:
             conexao.close()
+ 
 
-criando_tabela() 
+def cadastro_livro(titulo,autor,ano):
+    try:
+        conexao = sqlite3.connect("biblioteca.db")
+        cursor = conexao.cursor()
 
-# def cadastro_livro(titulo,autor,ano):
-#     try:
-#         conexao = sqlite3.connect("biblioteca.db")
-#         cursor = conexao.cursor()
+        cursor.execute("""
+        INSERT INTO livros (titulo,autor,ano, disponivel)
+        VALUES (?,?,?,?)               
+        """,
+        (titulo,autor,ano,"sim")
+        )
+        conexao.commit()
 
-#         cursor.execute("""
-#         INSERT INTO livros (titulo,autor,ano, disponivel)
-#         VALUES (?,?,?,?)               
-#         """,
-#         (titulo,autor,ano,"sim")
-#         )
-#         conexao.commit()
-
-#     except Exception as erro:
-#         print(f"erro ao tentar inserir livro  {erro}")
-#     finally:
-#         if conexao:
-#             conexao.close()
+    except Exception as erro:
+        print(f"erro ao tentar inserir livro  {erro}")
+    finally:
+        if conexao:
+            conexao.close()
            
 
-# titulo = input("Digite o do livro Desejado: ").lower()
-# autor = input("Digite o autor do livro: ").lower()
-# ano = int(input("Digite o ano: "))
+titulo = input("Digite o nome do livro Desejado: ").lower()
+autor = input("Digite o autor do livro: ").lower()
+ano = int(input("Digite o ano: "))
 
-# cadastro_livro(titulo,autor,ano)
+cadastro_livro(titulo,autor,ano)
 
 
 def listar_livros():
@@ -64,8 +63,6 @@ def listar_livros():
     finally:
            if conexao:
               conexao.close()
-
-listar_livros() 
 
 def atualizar_tabela(disponivel,id_livro):
     try:
@@ -85,10 +82,10 @@ def atualizar_tabela(disponivel,id_livro):
             if conexao:
                conexao.close()
 listar_livros()
-disponivel =  input("O livro que voce deseja esta disponivel: ")
+disponivel =  input("O livro que voce deseja esta disponivel (sim ou não): ")
 id_livro = int(input("Digite o id do livro que deseja alterar: "))
 atualizar_tabela(disponivel,id_livro)
-listar_livros()
+
 
 
 def remover_livros():
@@ -101,5 +98,39 @@ def remover_livros():
         print("Livro removido com sucesso! ")
     except Exception as erro:
          print(f"Erro ao remover livro: {erro}")
-    
-remover_livros()
+def menu():
+    while True:
+        print("1. Cadastrar livro")
+        print("2. Listar livros")
+        print("3. Atualizar disponibilidade")
+        print("4. Remover livro")
+        print("5. Sair")
+
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == "1":
+            titulo = input("Título do livro: ")
+            autor = input("Autor do livro: ")
+            ano = input("Ano do livro: ")
+            cadastro_livro(titulo, autor, ano)
+            print("Livro cadastrado com sucesso!")
+
+        elif opcao == "2":
+            listar_livros()
+
+        elif opcao == "3":
+            id_livro = input("Digite o ID do livro para atualizar: ")
+            novo_status = input("Disponível (sim/não): ")
+            atualizar_tabela(novo_status, id_livro)
+            print("Disponibilidade atualizada!")
+        elif opcao == "4":
+            id_livro = input("Digite o ID do livro que deseja remover: ")
+            remover_livros(id_livro)
+
+        elif opcao == "5":
+            print("Saindo do sistema")
+            break
+
+        else:
+            print("Opção inválida. Tente novamente.")
+menu()
